@@ -5,8 +5,12 @@
   "scripts": {
     "start": "node dev-server.js"
   },
-  "author": "",
-  "license": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:reverse-ostrich/game.git"
+  },
+  "author": "The Revese Ostrich",
+  "license": "UNLICENCED",
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
