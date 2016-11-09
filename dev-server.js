@@ -16,12 +16,18 @@ app.use(webpackMiddleware(webpack({
     output: { path: "/", filename: 'game.js'},
     devtool: 'source-map',
     module: {
-        loaders: [{
-            test: /\.js$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/,
-            query: { presets: ['es2015']}
-        }],
+        loaders: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                query: { presets: ['es2015']}
+            },
+            {
+                test: /\.json$/,
+                loader: 'json'
+            }, 
+        ],
         resolve: {
             root: [path.resolve('.')]
         },
