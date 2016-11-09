@@ -17,15 +17,13 @@ app.use(webpackMiddleware(webpack({
     devtool: 'source-map',
     module: {
         loaders: [{
-            test: /.jsx?$/,
+            test: /\.js$/,
             loader: 'babel-loader',
             exclude: /node_modules/,
-            query: { presets: ['es2015', 'react']}
+            query: { presets: ['es2015']}
         }],
         resolve: {
-            root: [
-                path.resolve('.')
-            ]
+            root: [path.resolve('.')]
         },
     },
     }), {
