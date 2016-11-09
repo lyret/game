@@ -14,5 +14,8 @@ PIXI.loader.add("images/sprite.png").load(() => {
     sprite.visible = false;
     stage.addChild(sprite);
     renderer.render(stage);
-    setTimeout(() => sprite.visible = false, 2000)
+    setTimeout(() => {
+        sprite.visible = true;
+        renderer.render(stage);
+    }, 2000)
 });
