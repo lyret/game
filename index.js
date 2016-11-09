@@ -1,3 +1,4 @@
+import Loader from './loader';
 
 //Create the renderer
 var renderer = PIXI.autoDetectRenderer(600, 480, {antialias: false, transparent: false, resolution: 1});
@@ -46,7 +47,10 @@ class Player {
 }
 
 
-PIXI.loader.add("images/sprite.png").load(() => {
+var path = Loader.addPath("images/sprite.png");
+
+Loader.loadResources(() => {
+    console.log('here!');
     var sprite = new PIXI.Sprite(PIXI.loader.resources["images/sprite.png"].texture);
     var playerSprite = new PIXI.Sprite(PIXI.loader.resources["images/sprite.png"].texture);
 
