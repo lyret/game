@@ -9,11 +9,20 @@ document.body.appendChild(renderer.view);
 //Create a container object called the `stage`
 var stage = new PIXI.Container();
 
+class player {
+
+    constructor(positions){
+        this.position = position;
+    }
+
+    update(){
+
+        
+    }
+}
 
 
-
-
-PIXI.loader.add("images/sprite.png").on("progress", () => console.log('loading...')).load(() => {
+PIXI.loader.add("images/sprite.png").load(() => {
     var sprite = new PIXI.Sprite(PIXI.loader.resources["images/sprite.png"].texture);
     sprite.visible = false;
     stage.addChild(sprite);
@@ -21,5 +30,5 @@ PIXI.loader.add("images/sprite.png").on("progress", () => console.log('loading..
     setInterval(() => {
         sprite.visible = !sprite.visible;
         renderer.render(stage);
-    }, 100)
+    }, 100);
 });
