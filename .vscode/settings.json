@@ -1,0 +1,19 @@
+{
+    "files.exclude": {
+        ".vscode": true,
+        "jsconfig.json": true,
+        "node_modules": true,
+        "dev-server.js": true,
+        "package.json": true,
+        "readme.md" : true,
+        "public" : false
+    },
+    "search.exclude": {
+        ".vscode": false,
+        "jsconfig.json": false,
+        "dev-server.js": false,
+        "package.json": false,
+        "readme.md" : false,
+        "public" : false
+    }
+}
