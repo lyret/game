@@ -18,9 +18,6 @@
     "webpack-dev-middleware": "^1.8.4"
   },
   "dependencies": {
-    "mobx": "^2.6.1",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-pixi": "^0.9.0"
+    "mobx": "^2.6.1"
   }
 }
