@@ -20,7 +20,7 @@ class Player {
 
         this.vx = 0;
         this.vy = 0;
-        this.moveSpeed = 10;
+        this.moveSpeed = 5;
 
         this.keyW = keyboard(87);
         this.keyA = keyboard(65);
@@ -48,26 +48,36 @@ class Player {
 
 
 var path = Loader.addPath("images/sprite.png");
+var player;
 
 Loader.loadResources(() => {
     console.log('here!');
     var sprite = new PIXI.Sprite(PIXI.loader.resources["images/sprite.png"].texture);
     var playerSprite = new PIXI.Sprite(PIXI.loader.resources["images/sprite.png"].texture);
 
-    let player = new Player({x:100, y:100}, playerSprite);
+    player = new Player({x:100, y:100}, playerSprite);
     
-    sprite.visible = false;
+    //sprite.visible = false;
     
     stage.addChild(sprite);
     stage.addChild(player.sprite);
 
-    renderer.render(stage);
-    setInterval(() => {
-        player.update();
-        sprite.visible = !sprite.visible;
-        renderer.render(stage);
-    }, 100);
+    gameLoop();
 });
+/*
+function setup(){
+    console.log("setup");
+    gameLoop();
+}
+*/
+function gameLoop(){
+    requestAnimationFrame(gameLoop);
+
+    player.update(); // FIX: for each gameobject update
+
+    renderer.render(stage);
+}
+
 
 
 
