@@ -17,10 +17,8 @@ class Loader
     }
 
     loadResources(callback) {
-        let nrOfLoadedResources = 0;
-        _loader.add(this.pathsToLoad).on("progress", () => {
-            nrOfLoadedResources += 1;
-            console.log('loading', (100/this.pathsToLoad.length)*nrOfLoadedResources + '%')
+        _loader.add(this.pathsToLoad).on("progress", (loader, resource) => {
+            console.log('loaded ' +resource.name, loader.progress + '%')
         }).load(callback)
     }
 } 
