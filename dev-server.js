@@ -12,7 +12,7 @@ app.use(express.static("public"));
 
 // Serve the dynamic game bundle
 app.use(webpackMiddleware(webpack({
-    entry: "./index.jsx",
+    entry: "./index.js",
     output: { path: "/", filename: 'game.js'},
     devtool: 'source-map',
     module: {
