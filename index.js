@@ -9,13 +9,17 @@ document.body.appendChild(renderer.view);
 //Create a container object called the `stage`
 var stage = new PIXI.Container();
 
-PIXI.loader.add("images/sprite.png").load(() => {
+
+
+
+
+PIXI.loader.add("images/sprite.png").on("progress", () => console.log('loading...')).load(() => {
     var sprite = new PIXI.Sprite(PIXI.loader.resources["images/sprite.png"].texture);
     sprite.visible = false;
     stage.addChild(sprite);
     renderer.render(stage);
-    setTimeout(() => {
-        sprite.visible = true;
+    setInterval(() => {
+        sprite.visible = !sprite.visible;
         renderer.render(stage);
-    }, 2000)
+    }, 100)
 });
