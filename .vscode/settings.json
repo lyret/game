@@ -1,7 +1,9 @@
 {
     "files.exclude": {
         ".vscode": true,
+        ".gitignore": true,
         "jsconfig.json": true,
+        "tsconfig.json": true,
         "node_modules": true,
         "dev-server.js": true,
         "package.json": true,
@@ -10,7 +12,9 @@
     },
     "search.exclude": {
         ".vscode": false,
+        ".gitignore": false,
         "jsconfig.json": false,
+        "tsconfig.json": false,
         "dev-server.js": false,
         "package.json": false,
         "readme.md" : false,
