@@ -16,4 +16,6 @@
         "readme.md" : false,
         "public" : false
     }
+,
+"typescript.tsdk": "./node_modules/typescript/lib"
 }

@@ -17,6 +17,7 @@ app.use(webpackMiddleware(webpack({
     devtool: 'source-map',
     module: {
         loaders: [
+            { test: /\.ts$/, loader: 'ts-loader' },
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
@@ -29,7 +30,8 @@ app.use(webpackMiddleware(webpack({
             }, 
         ],
         resolve: {
-            root: [path.resolve('.')]
+            root: [path.resolve('.')],
+            extensions: ['', '.js', '.ts']
         },
     },
     }), {
