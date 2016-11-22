@@ -15,6 +15,7 @@
         },
         {
             "taskName": "start",
+            "isWatching": true,
             "args": ["start"]
         }
     ]
