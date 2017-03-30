@@ -44,58 +44,69 @@ class QuestChallenge {
     private _challenge: Challenge
     private _locations: MapLocation[]
 
+    private revealALocation() : void {
+        let stage : MapLocation | MapLocation[] = new MapLocation(this.challenge.rooms[this.completedLength])
+
+        if (stage instanceof Array) {
+            stage = stage[Math.floor(stage.length*Math.random())]
+        }
+        this._locations.push(stage as MapLocation);
+    }
+
+    constructor(challenge: Challenge) {
+        this._locations = [];
+        this._challenge = challenge;
+        this.revealALocation();
+    }
+
+    public get location() {
+        if (this.isComplete) {
+            return undefined
+        }
+        while (!this.isComplete && !this.reveleadLocations.length) {
+            this.revealALocation();
+        }
+        return this.reveleadLocations[this.completedLength];
+    }
+
     public get challenge(): Challenge {
         return (this._challenge)
     }
 
     public get reveleadLocations(): MapLocation[] {
-        return (this._locations || [])
+        return (this._locations)
     }
 
-    private get totalLength() {
-        return (this._challenge.rooms.length)
+    public get totalLength() {
+        return (this.challenge.rooms.length)
+    }
+
+    public get completedLength() {
+        return (this.reveleadLocations.length || 0)
     }
 
     public get remainingLength() {
-        return (Math.max(0, this._challenge.rooms.length - this.reveleadLocations.length))
+        return (Math.max(0, this.challenge.rooms.length - this.completedLength))
     }
 
     public get isComplete() {
         return (this.remainingLength == 0)
     }
-
-    constructor(challenge: Challenge) {
-        this._challenge = challenge;
-    }
-
-    public revealALocation() {
-        //const nextRoom = this._challenge.rooms[]
-    }
 }
 
 class MapLocation {
-    private _room: Room
-    private _placement: MapPlacement
+    private _room: Room 
     
     /*public get room(): Room {
         return (this._room)
     }*/
 
-    public get placement(): MapPlacement {
-        return (this._placement)
-    }
-
-    public get isPlaced() : boolean {
-        return (!!this._placement)
-    }
-
     public get exits() {
         return (this._room.exits);
     }
 
-    constructor(room: Room, placement?: MapPlacement) {
+    constructor(room: Room) {
         this._room = room;
-        this._placement = placement;
     }
 }
 
@@ -108,67 +119,24 @@ class Map {
 
     private _grid : (MapLocation | null)[][]
     private _size : number
+    private _currentPlacement : MapPlacement
 
     constructor(estimatedSize?: number) {
         this._size = estimatedSize || 1
+        this._currentPlacement = { row: Math.floor(this._size/2), column: Math.floor(this._size/2) }
         this.createEmptyGrid();
     }
 
-    private createEmptyGrid() : void {
-        this._grid = []
-        _.each(_.range(this._size), row => {
-            this._grid[row] = [];
-            _.each(_.range(this._size), column => {
-                this._grid[row][column] = null;
-            })
-        })
+    public get currentPlacement() : MapPlacement {
+        return this._currentPlacement
     }
 
-    // TODO: delete med
-    public test() {
-        console.log(this._grid);
-        console.log();
-        console.log();
-        console.log();
-        this.placeLocation(
-            new MapLocation({ exits: { right: true } }),
-            { row: 0, column: 0}
-        )
-        console.log(this._grid);
-        console.log();
-        console.log();
-        console.log();
-        this.placeLocation(
-            new MapLocation({ exits: { left: true} }),
-            { row: 0, column: 1}
-        )
-        console.log(this._grid);
-    }
-
-    private expandGrid() {
-        const oldGrid = this._grid;
-        const oldSize = this._size;
+    public locationAt(placement: MapPlacement) : MapLocation {
+        if (this.placementIsOutOfBounds(placement)) {
+            return undefined;
+        }
         
-        this._size = this._size + this._bufferSize * 2
-        this.createEmptyGrid();
-
-        _.each(_.range(oldSize), row => {
-            _.each(_.range(oldSize), column => {
-                this._grid[row + this._bufferSize][column + this._bufferSize] = oldGrid[row][column];
-            })
-        })
-    }
-    
-    private placementIsOutOfBounds(placement: MapPlacement) : boolean {
-        return (placement.row < 0 || placement.column < 0 || placement.column >= this._size || placement.row >= this._size)
-    }
-
-    private placementIsEmpty(placement: MapPlacement) : boolean {
-        return (this.placementIsOutOfBounds(placement) || !this.theLocationAt(placement))
-    }
-
-    private theLocationAt(placement: MapPlacement) : MapLocation {
-        return (this._grid[placement.row][placement.column])
+        return this._grid[placement.row][placement.column]
     }
 
     public doesLocationFit(location: MapLocation, placement: MapPlacement) : boolean { 
@@ -201,8 +169,46 @@ class Map {
         while (this.placementIsOutOfBounds(placement)) {
             this.expandGrid()
             placement = { row: placement.row + this._bufferSize, column: placement.column + this._bufferSize}
+
         }
         this._grid[placement.row][placement.column] = location;
+    }
+
+    private expandGrid() {
+        const oldGrid = this._grid;
+        const oldSize = this._size;
+        
+        this._size = this._size + this._bufferSize * 2
+        this._currentPlacement = { row: this._currentPlacement.row + this._bufferSize, column: this._currentPlacement.column + this._bufferSize}
+        this.createEmptyGrid();
+
+        _.each(_.range(oldSize), row => {
+            _.each(_.range(oldSize), column => {
+                this._grid[row + this._bufferSize][column + this._bufferSize] = oldGrid[row][column];
+            })
+        })
+    }
+
+    private createEmptyGrid() : void {
+        this._grid = []
+        _.each(_.range(this._size), row => {
+            this._grid[row] = [];
+            _.each(_.range(this._size), column => {
+                this._grid[row][column] = null;
+            })
+        })
+    }
+    
+    private placementIsOutOfBounds(placement: MapPlacement) : boolean {
+        return (placement.row < 0 || placement.column < 0 || placement.column >= this._size || placement.row >= this._size)
+    }
+
+    private placementIsEmpty(placement: MapPlacement) : boolean {
+        return (this.placementIsOutOfBounds(placement) || !this.theLocationAt(placement))
+    }
+
+    private theLocationAt(placement: MapPlacement) : MapLocation {
+        return (this._grid[placement.row][placement.column])
     }
 }
 
@@ -210,49 +216,71 @@ class Quest {
     private targetedDifficulty: Difficulty
 
     private get experiencedDifficulty(): Difficulty {
-        return 0
+        return 0 // TODO: Should be dynamic
     }
 
-    private _location: MapLocation
+    private get currentPlacement(): MapPlacement {
+        return this._map.currentPlacement
+    }
+
     private _challenges: QuestChallenge[]
 
-    private get allchallenges() {
+    private get allChallenges() {
         if (!this._challenges || !this._challenges.length) {
             this._challenges = [this.pickNewChallenge()]
         }
         return this._challenges
     }
 
-
-    private get entrence() {
-        return this._challenges[0];
+    private get openChallenges() {
+        let openChallanges = _.filter(this.allChallenges, (challenge) => !challenge.isComplete)
+        while (!openChallanges.length) {
+            this.pickNewChallenge()
+            openChallanges = _.filter(this.allChallenges, (challenge) => !challenge.isComplete)
+        }
+        return openChallanges;
     }
 
-    private spawnNewRoom() {
-        return (this._challenges[this._challenges.length - 1])
-    }
+
+    private _map : Map
 
     constructor(wantedDifficulty?: Difficulty) {
         this.targetedDifficulty = wantedDifficulty || 0
+        this._map = new Map(5)
     }
 
     private pickNewChallenge(): QuestChallenge {
 
         return new QuestChallenge({
             difficulty: 1,
-            rooms: []
-        })
+            rooms: [{ exits: { up: true, down: true, left: true, right: true }}, { exits: { up: true, down: true, left: true, right: true }}]
+        }) // TODO: There is a bug, challenge completed is off by one, last room finishes the challenge
     }
 
-    public get location(): MapLocation {
-        return new MapLocation({
-            exits: {
-                up: true,
-                down: true,
-            }
+    private pickNewLocation() {
+
+        _.each(this.openChallenges, challenge => {
+            console.log(challenge.location)
         })
+
+        const location = new MapLocation({ exits: {}})
+
+        if (this._map.doesLocationFit(location, this.currentPlacement)) {
+            this._map.placeLocation(location, this.currentPlacement)
+        }
+    }
+
+    public get currentLocation(): MapLocation {
+        let location = this._map.locationAt(this.currentPlacement)
+
+        while (!location) {
+            this.pickNewLocation()
+            location = this._map.locationAt(this.currentPlacement)
+        }
+
+        return (location)
     }
 }
 
-const m = new Map(5);
-m.test();
+const q = new Quest()
+console.log(q.currentLocation)

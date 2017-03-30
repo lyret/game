@@ -1,4 +1,5 @@
 import Loader from './loader';
+import { apa } from './map.ts';
 
 //Create the renderer
 var renderer = PIXI.autoDetectRenderer(600, 480, {antialias: false, transparent: false, resolution: 1});
@@ -20,7 +21,7 @@ class Player {
 
         this.vx = 0;
         this.vy = 0;
-        this.moveSpeed = 5;
+        this.moveSpeed = 10;
 
         this.keyW = keyboard(87);
         this.keyA = keyboard(65);
