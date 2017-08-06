@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "the game",
   "scripts": {
+    "cleanup": "rm -f package-lock.json && rm -r -f node_modules",
     "start": "node dev-server.js"
   },
   "repository": {
@@ -12,6 +13,9 @@
   "author": "The Revese Ostrich",
   "license": "UNLICENCED",
   "devDependencies": {
+    "@types/react": "^15.6.1",
+    "@types/react-dom": "^15.5.0",
+    "awesome-typescript-loader": "^3.1.3",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
     "babel-preset-es2015": "^6.18.0",
@@ -19,12 +23,17 @@
     "express": "^4.14.0",
     "json-loader": "^0.5.4",
     "path": "^0.12.7",
-    "ts-loader": "^1.2.2",
-    "typescript": "^2.0.10",
+    "typescript": "^2.4.2",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4"
   },
   "dependencies": {
-    "mobx": "^2.6.1"
+    "2.4.2": "^1.0.0",
+    "@types/prop-types": "^15.5.1",
+    "lodash": "^4.17.4",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-game-kit": "0.0.2"
   }
 }

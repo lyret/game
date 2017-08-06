@@ -7,6 +7,7 @@
         "node_modules": true,
         "dev-server.js": true,
         "package.json": true,
+        "package-lock.json": true,
         "readme.md" : true,
         "public" : false
     },
@@ -17,6 +18,7 @@
         "tsconfig.json": false,
         "dev-server.js": false,
         "package.json": false,
+        "package-lock.json": false,
         "readme.md" : false,
         "public" : false
     }

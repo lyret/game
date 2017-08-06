@@ -14,8 +14,12 @@
             "args": ["update"]
         },
         {
+            "taskName": "clean",
+            "args": ["cleanup"]
+        },
+        {
             "taskName": "start",
-            "isWatching": true,
+            "isBackground": true,
             "args": ["start"]
         }
     ]
