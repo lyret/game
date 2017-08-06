@@ -1,9 +1,23 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "jsx": "react",
     "target": "es5",
-    "sourceMap": true
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "pretty": false,
+    "removeComments": true,
+    "outDir": "public",
+    "baseUrl": "."
   },
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules/**"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+        "silent": false,
+        "compiler": "node_modules/typescript/lib",
+        "useCache": false
+    }
 }
