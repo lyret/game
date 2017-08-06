@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import * as Lodash from 'lodash'
 
 type Difficulty = number
 interface NodeConnections {
@@ -16,7 +16,7 @@ class QuestNode {
     paths: NodeConnections
 
     public get connectingNodes() {
-        return (_.values(this.paths))
+        return (Lodash.values(this.paths))
     }
 
     constructor(room: Room) {
@@ -131,9 +131,9 @@ class Map {
         return this._currentPlacement
     }
 
-    public locationAt(placement: MapPlacement) : MapLocation {
+    public locationAt(placement: MapPlacement) : MapLocation | null {
         if (this.placementIsOutOfBounds(placement)) {
-            return undefined;
+            return null;
         }
         
         return this._grid[placement.row][placement.column]
@@ -182,8 +182,8 @@ class Map {
         this._currentPlacement = { row: this._currentPlacement.row + this._bufferSize, column: this._currentPlacement.column + this._bufferSize}
         this.createEmptyGrid();
 
-        _.each(_.range(oldSize), row => {
-            _.each(_.range(oldSize), column => {
+        Lodash.each(Lodash.range(oldSize), row => {
+            Lodash.each(Lodash.range(oldSize), column => {
                 this._grid[row + this._bufferSize][column + this._bufferSize] = oldGrid[row][column];
             })
         })
@@ -191,9 +191,9 @@ class Map {
 
     private createEmptyGrid() : void {
         this._grid = []
-        _.each(_.range(this._size), row => {
+        Lodash.each(Lodash.range(this._size), row => {
             this._grid[row] = [];
-            _.each(_.range(this._size), column => {
+            Lodash.each(Lodash.range(this._size), column => {
                 this._grid[row][column] = null;
             })
         })
@@ -208,7 +208,11 @@ class Map {
     }
 
     private theLocationAt(placement: MapPlacement) : MapLocation {
-        return (this._grid[placement.row][placement.column])
+        const location = this._grid[placement.row][placement.column]
+        if (!location) {
+            throw new Error("Attempted to access a placement out of bounds")
+        }
+        return (location)
     }
 }
 
@@ -233,10 +237,10 @@ class Quest {
     }
 
     private get openChallenges() {
-        let openChallanges = _.filter(this.allChallenges, (challenge) => !challenge.isComplete)
+        let openChallanges = Lodash.filter(this.allChallenges, (challenge) => !challenge.isComplete)
         while (!openChallanges.length) {
             this.pickNewChallenge()
-            openChallanges = _.filter(this.allChallenges, (challenge) => !challenge.isComplete)
+            openChallanges = Lodash.filter(this.allChallenges, (challenge) => !challenge.isComplete)
         }
         return openChallanges;
     }
@@ -259,7 +263,7 @@ class Quest {
 
     private pickNewLocation() {
 
-        _.each(this.openChallenges, challenge => {
+        Lodash.each(this.openChallenges, challenge => {
             console.log(challenge.location)
         })
 
