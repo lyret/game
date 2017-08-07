@@ -8,7 +8,6 @@
         "dev-server.js": true,
         "package.json": true,
         "package-lock.json": true,
-        "readme.md" : true,
         "public" : false
     },
     "search.exclude": {
@@ -19,7 +18,6 @@
         "dev-server.js": false,
         "package.json": false,
         "package-lock.json": false,
-        "readme.md" : false,
         "public" : false
     }
 ,
