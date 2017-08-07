@@ -1,39 +1,48 @@
 import * as React from 'react'
 import * as ReactDom from 'react-dom'
-import { Loop, Stage, Sprite } from 'react-game-kit'
-import { Component } from './component'
 
-class Character extends Component
-{
+import { Loop, Stage, Sprite, World, Body } from 'react-game-kit'
+// import { Component } from './component'
+
+class Character extends React.Component {
     update() {
         console.log("test")
     }
     render() {
         return (
             <Sprite
+                repeat={true}
                 src="images/sprite.png"
+                scale={this.context.scale * 2}
+                state={0}
+                steps={[0]}
             />
-        );
+        )
     }
 }
 
 class Game extends React.Component<{}, {}>
 {
+    body: any
+
     render() {
         return (
             <Loop>
-                <p>Test 4</p>
-                <Stage width={1024} height={576}>
-                    <Component/>
+                <Stage>
+                    <World>
+                        <Body args={[0, 0, 75, 75]} ref={(b) => this.body = b.body}>
+                            <Character />
+                        </Body>
+                    </World>
                 </Stage>
-            </Loop>
-        );
+            </Loop >
+        )
     }
 }
 
 
 // Render the react tree to the HTML document
-ReactDom.render(<Game/>, document.getElementById("game"));
+ReactDom.render(<Game />, document.getElementById("game"));
 
 
 // class Player {
